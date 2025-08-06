@@ -1,0 +1,10 @@
+node_modules
+.env
+lib/schema-script
+.DS_Store
+assets/img
+assets/css
+mysql-config.js
+mysql-config.js
+*.sql
+*.zip

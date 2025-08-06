@@ -1,0 +1,45 @@
+{
+  "extends": ["airbnb-base", "plugin:prettier/recommended"],
+  "env": {
+    "node": true,
+    "es6": true,
+    "browser": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
+  "rules": {
+    "no-unused-vars": "error",
+    "no-console": "warn",
+    "func-names": "error",
+    "no-process-exit": "off",
+    "no-continue": "off",
+    "class-methods-use-this": "off",
+    "no-restricted-syntax": "off",
+    "global-require": "off",
+    "import/no-dynamic-require": "off",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "import/extensions": "off",
+    "no-use-before-define": ["error", { "functions": false, "classes": true }],
+    "no-await-in-loop": "off",
+    "no-underscore-dangle": "off",
+    "no-plusplus": "off",
+    "guard-for-in": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["*.test.js"],
+      "env": { "mocha": true },
+      "rules": {
+        "no-unused-expressions": "off",
+        "no-console": "off"
+      }
+    }
+  ]
+}

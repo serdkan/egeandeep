@@ -14,6 +14,7 @@ const userUserPermissionSql = `SELECT
                             b.Title AS title,
                             b.ParentUrlId as parentUrlId,
                             c.Url as parentUrl,
+                            c.Title as parentTitle,
                             c.Icon as icon
                             FROM SYS_UserPermission a
                             LEFT JOIN SYS_Url b on a.UrlId=b.Id

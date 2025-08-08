@@ -16,7 +16,7 @@ async function userPermissionListController(req, res) {
       },
       'user-login-role',
     );
-    res.send(permission);
+    res.send(permission.data);
   } catch (err) {
     res.sendStatus(err);
   }

@@ -1,4 +1,5 @@
-const orderListSql = `select * from erp_siparis detay where firmId=@firmId`;
+const orderListSql = `SELECT * FROM SRV_Order`;
+
 const orderListIdSql = `select * from erp_siparis detay where firmId=@firmId and id=@id`;
 const orderDeleteSql = `delete from erp_siparis where firmId=@firmId and id=@id`;
 const orderInsertSql = `INSERT INTO ERP_Siparis

@@ -20,7 +20,8 @@ const executeQuery = async (sqlScript, parameters = []) => {
         return request.query(sqlScript);
       })
       .then((result) => {
-        resolve(result.recordset);
+        const totalCount = result?.rowsAffected;
+        resolve({ data: result.recordsets[0], totalCount });
       })
       .catch((err) => reject(err))
       .finally(() => {

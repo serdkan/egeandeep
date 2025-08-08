@@ -1,5 +1,5 @@
 const orderRoute = {
-  routePrefix: '/api/order',
+  routePrefix: '/api/orders',
   routes: [
     {
       endPoint: '/list',

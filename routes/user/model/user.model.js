@@ -23,7 +23,9 @@ class User {
     }
 
     const result = await executeQuery(sql, [params])
-      .then((data) => data)
+      .then((data) => {
+        return { data: data.data, totalCount: data.totalCount };
+      })
       .catch((err) => console.log(err));
     return result;
   }

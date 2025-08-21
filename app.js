@@ -3,7 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
-// const userCheckController = require('./routes/user/user-check-controller.js');
+//const userCheckController = require('./routes/user/user-check-controller.js');
 const { userLoginController } = require('./routes/user/user-login-controller');
 const router = require('./routes/router.js');
 
@@ -16,7 +16,7 @@ const port = process.env.PORT || 3001;
 
 const allowedOrigins = Array(4)
   .fill(0)
-  .map((_, i) => `http://localhost:517${i}`);
+  .map((_, i) => `http://localhost:300${i}`);
 
 app.use(
   cors({ methods: ['GET', 'POST'], origin: allowedOrigins, credentials: true }),

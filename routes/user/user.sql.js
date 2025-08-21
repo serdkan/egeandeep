@@ -1,4 +1,11 @@
-const userLoginCheckSql = `select * from SYSV_User(nolock) where UserName=@username and Password=@password`;
+const userLoginCheckSql = `select id,userName,
+active,syncCode,mail,
+nameSurname,firmId,workplaceId,
+phone,job,cityId,townId,countryId,countryNameTR,countryNameEN,birthday from SYSV_User(nolock) where UserName=@userName and Password=@password`;
+const userInfoSql = `select id,userName,
+active,syncCode,mail,
+nameSurname,firmId,workplaceId,
+phone,job,cityId,townId,countryId,countryNameTR,countryNameEN,birthday from SYSV_User(nolock) where id=@userId`;
 const userParamsSql = `select * from SYS_Params(nolock) where FirmId=@firmId`;
 const userUserPermissionSql = `SELECT 
                             a.Id AS id,
@@ -24,4 +31,5 @@ module.exports = {
   userLoginCheckSql,
   userParamsSql,
   userUserPermissionSql,
+  userInfoSql,
 };

@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 function userCheckController(req, res, next) {
-  const token = req.cookies.rbsBearer;
+  const token = req.cookies.egeanBearer;
   const secretKey = process.env.SECRET_KEY;
   if (!token) {
     return res.status(401).json({ message: 'Authorization token missing' });

@@ -3,6 +3,7 @@ const {
   userLoginCheckSql,
   userParamsSql,
   userUserPermissionSql,
+  userInfoSql,
 } = require('../user.sql');
 
 class User {
@@ -18,10 +19,12 @@ class User {
       case 'user-login-role':
         sql = userUserPermissionSql;
         break;
+      case 'user-info':
+        sql = userInfoSql;
+        break;
       default:
         break;
     }
-
     const result = await executeQuery(sql, [params])
       .then((data) => {
         return { data: data.data, totalCount: data.totalCount };

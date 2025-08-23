@@ -2,9 +2,9 @@ const dashboarRoute = {
   routePrefix: '/api/dasboard',
   routes: [
     {
-      endPoint: '/list/:module',
+      endPoint: '/:module/list',
       method: 'GET',
-      controllers: ['getModuleList'],
+      controllers: ['dashboardModuleController'],
       description: 'User fetches list',
     },
   ],

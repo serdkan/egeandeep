@@ -17,7 +17,7 @@ const userUserPermissionSql = `SELECT
                             a.IsDelete AS isDelete,
                             a.IsUpdate AS isUpdate,
                             a.IsPriceLook AS isPriceLook,
-                            b.Url AS url,
+                            b.Url AS path,
                             b.Title AS title,
                             b.ParentUrlId as parentUrlId,
                             c.Url as parentUrl,
@@ -26,7 +26,8 @@ const userUserPermissionSql = `SELECT
                             FROM SYS_UserPermission a
                             LEFT JOIN SYS_Url b on a.UrlId=b.Id
                             LEFT JOIN SYS_ParentUrl c on b.ParentUrlId=c.Id
-                            WHERE a.FirmId=1 and UserId=@userId`;
+                            WHERE a.FirmId=1 and UserId=@userId
+                            Order By c.OrderBy`;
 module.exports = {
   userLoginCheckSql,
   userParamsSql,

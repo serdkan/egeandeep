@@ -1,4 +1,3 @@
-const sql = require('mssql');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const dayjs = require('dayjs');
@@ -25,42 +24,10 @@ async function userLoginController(req, res) {
       return res.status(401).json({ message: 'Authentication failed' });
     }
 
-    const params = await User.userInformation(
-      {
-        firmId: {
-          type: sql.Int,
-          value: 1,
-        },
-      },
-      'get-firm-params',
-    );
-    const userRole = await User.userInformation(
-      {
-        firmId: {
-          type: sql.Int,
-          value: 1,
-        },
-        userId: {
-          type: sql.Int,
-          value: isUser.id,
-        },
-      },
-      'user-login-role',
-    );
     const user = {
       id: isUser.id,
-      isTelegramActive:
-        params?.ParamsName === 'telegram' && params?.active === 1 ? 1 : 0 || 0,
       username: isUser.userName,
-      password: isUser.password,
-      firmId: isUser.firmId,
-      workplaceId: isUser.workplaceId,
-      rules: userRole,
       role: 'admin',
-      workplaceName: isUser.workplaceName,
-      firmName: isUser.firmName,
-      telegramtoken: process.env.TOKEN,
-      channel: process.env.CHANNEL,
     };
 
     const secretKey = process.env.SECRET_KEY;

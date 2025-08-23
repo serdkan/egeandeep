@@ -25,7 +25,7 @@ const executeQuery = async (sqlScript, parameters = []) => {
       })
       .catch((err) => reject(err))
       .finally(() => {
-        sql.close();
+        if (sql) sql.close();
       });
   });
 };

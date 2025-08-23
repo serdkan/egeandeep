@@ -14,7 +14,9 @@ async function userGetInfoController(req, res) {
     }
     return res.json(req.user);
   } catch (err) {
-    throw new Error('Error fetching user information');
+    return res
+      .status(500)
+      .json({ message: 'Server error', error: err.message });
   }
 }
 module.exports = userGetInfoController;

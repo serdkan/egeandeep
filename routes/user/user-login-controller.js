@@ -6,7 +6,6 @@ const User = require('./model/user.model');
 
 async function userLoginController(req, res) {
   try {
-    console.log(req.body);
     res.cookie('egeanBearer', '', {
       expires: new Date(),
       httpOnly: true,

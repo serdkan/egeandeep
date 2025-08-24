@@ -4,18 +4,16 @@ const Dashboard = require('./model/dashboard.model');
 async function dashboardModuleController(req, res) {
   try {
     const { startDate, endDate, url } = req.query;
-    const start = startDate ? startDate.split('T')[0] : null;
-    const end = endDate ? endDate.split('T')[0] : null;
     if (url === 'daily-order-report') {
       const result = await Dashboard.getDashboardData(
         {
           startDate: {
             type: sql.date,
-            value: start,
+            value: startDate,
           },
           endDate: {
             type: sql.date,
-            value: end,
+            value: endDate,
           },
         },
         url,

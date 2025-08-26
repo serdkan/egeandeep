@@ -7,6 +7,12 @@ const dashboarRoute = {
       controllers: ['dashboardModuleController'],
       description: 'User fetches list',
     },
+    {
+      endPoint: '/barcode',
+      method: 'GET',
+      controllers: ['dashboardBarcodeController'],
+      description: 'User fetches list',
+    },
   ],
 };
 

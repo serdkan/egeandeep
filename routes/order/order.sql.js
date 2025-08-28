@@ -1,4 +1,20 @@
-const orderListSql = `SELECT * FROM SRV_Order`;
+const orderListSql = (orderType) => `SELECT 
+SIPARISNO AS orderNo,
+TARIH AS orderDate,
+CARI_ISIM AS accountName,
+ACIKLAMA AS description,
+SIPARISTIPI AS orderType,
+TESLIMTARIHI AS deliveryDate,
+ISKONTOTUTARI AS discountAmount,
+GENELTOPLAM AS totalAmount,
+KAYDEDENKUL AS createdBy,
+TESLIM_SEKLI AS deliveryMethod,
+(SELECT SUM(MIKTAR) FROM SIPARISDET SPD WHERE SPD.SIPARISNO=SP.SIPARISNO) AS quantity,
+(SELECT SUM(TOPLAMM2) FROM SIPARISDET SPD WHERE SPD.SIPARISNO=SP.SIPARISNO) AS m2,
+TUTAR AS amount
+FROM SR_SIPARIS_UST_BILGI SP
+WHERE @startDate<=SP.TARIH AND @endDate>=SP.TARIH
+AND SP.SIPTIP IN (${orderType})`;
 
 const orderListIdSql = `select * from erp_siparis detay where firmId=@firmId and id=@id`;
 const orderDeleteSql = `delete from erp_siparis where firmId=@firmId and id=@id`;

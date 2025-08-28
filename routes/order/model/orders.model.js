@@ -3,11 +3,11 @@ const { orderListSql } = require('../order.sql.js');
 const { executeQuery } = require('../../../libs/helper');
 
 class Order {
-  static async getOrder(params, type, customQuery) {
+  static async getOrder(params, type, orderType, customQuery) {
     let sql = '';
     switch (type) {
-      case 'order':
-        sql = orderListSql;
+      case 'orders':
+        sql = orderListSql(orderType);
         break;
       case 'order-detail':
         sql = orderListSql;

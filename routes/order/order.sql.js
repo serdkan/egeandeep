@@ -1,10 +1,9 @@
-const orderListSql = (orderType) => `SELECT 
-SIPARISNO AS orderNo,
-TARIH AS orderDate,
+const orderListSql = (orderType, dateType) => `SELECT SIPARISNO AS orderNo,
+CAST(TARIH AS date) AS orderDate,
 CARI_ISIM AS accountName,
-ACIKLAMA AS description,
+DBO.TRK(ACIKLAMA) AS description,
 SIPARISTIPI AS orderType,
-TESLIMTARIHI AS deliveryDate,
+CAST(TESLIMTARIHI AS date) AS deliveryDate,
 ISKONTOTUTARI AS discountAmount,
 GENELTOPLAM AS totalAmount,
 KAYDEDENKUL AS createdBy,
@@ -13,8 +12,30 @@ TESLIM_SEKLI AS deliveryMethod,
 (SELECT SUM(TOPLAMM2) FROM SIPARISDET SPD WHERE SPD.SIPARISNO=SP.SIPARISNO) AS m2,
 TUTAR AS amount
 FROM SR_SIPARIS_UST_BILGI SP
-WHERE @startDate<=SP.TARIH AND @endDate>=SP.TARIH
+WHERE @startDate<=${dateType} AND @endDate>=${dateType}
 AND SP.SIPTIP IN (${orderType})`;
+
+const orderListDetailForOrderNoSql = (orderNo) => `select 
+SIPARISNO       AS orderNo,
+ST.STOK_ADI     AS stockName,
+STOKKODU        AS stockCode,
+DET.MIKTAR          AS quantity,
+DET.EN              AS width,
+DET.BOY             AS height,
+TOPLAMM2        AS totalM2,
+BRUTFIYAT       AS grossPrice,
+NETFIYAT        AS netPrice,
+TUTAR           AS amount,
+KAPAKTIPI       AS coverType,
+CAM             AS glass,
+MENTESE         AS hinge,
+MENTESEADET     AS hingeCount,
+(CASE WHEN AMORTISOR='AKS44' THEN 'BOYDAN KULP' ELSE '' END ) AS handle,
+ISNULL(AMORTISORADET,0)        AS handleCount
+ from SIPARISDET DET
+ LEFT JOIN TBLSTSABIT ST ON DET.STOKKODU=ST.STOK_KODU 
+ WHERE SIPARISNO IN (${orderNo})
+`;
 
 const orderListIdSql = `select * from erp_siparis detay where firmId=@firmId and id=@id`;
 const orderDeleteSql = `delete from erp_siparis where firmId=@firmId and id=@id`;
@@ -69,4 +90,5 @@ export {
   orderDeleteSql,
   orderInsertSql,
   orderUpdateSql,
+  orderListDetailForOrderNoSql,
 };

@@ -3,7 +3,8 @@ const Order = require('./model/orders.model');
 
 async function orderListController(req, res) {
   try {
-    const { startDate, endDate, type, orderType } = req.query;
+    const { startDate, endDate, type, orderType, dateType } = req.query;
+    const dateTypeStr = dateType === '2' ? 'TARIH' : 'TESLIMTARIHI';
     const result = await Order.getOrder(
       {
         startDate: {
@@ -17,9 +18,31 @@ async function orderListController(req, res) {
       },
       type,
       orderType.join(','),
+      '',
+      dateTypeStr,
     );
+
+    const ordersNo = result.data.map((item) => `'${item.orderNo}'`).join(',');
+    const resultDeteail = await Order.getOrder(
+      {},
+      'order-detail',
+      [],
+      ordersNo,
+    );
+
+    const enrichedOrders = result.data.map((order) => {
+      const matchingDetails = resultDeteail.data.filter(
+        (detail) => detail.orderNo === order.orderNo,
+      );
+
+      return {
+        ...order,
+        orderDetail: matchingDetails,
+      };
+    });
+
     return res.json({
-      data: result.data,
+      data: enrichedOrders,
       totalCount: result.totalCount,
     });
   } catch (err) {

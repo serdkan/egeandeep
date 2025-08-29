@@ -1,16 +1,26 @@
 const mssql = require('mssql');
-const { orderListSql } = require('../order.sql.js');
+const {
+  orderListSql,
+  orderListDetailForOrderNoSql,
+} = require('../order.sql.js');
 const { executeQuery } = require('../../../libs/helper');
 
 class Order {
-  static async getOrder(params, type, orderType, customQuery) {
+  static async getOrder(
+    params,
+    type,
+    orderType,
+    orderNo,
+    dateType,
+    customQuery,
+  ) {
     let sql = '';
     switch (type) {
       case 'orders':
-        sql = orderListSql(orderType);
+        sql = orderListSql(orderType, dateType);
         break;
       case 'order-detail':
-        sql = orderListSql;
+        sql = orderListDetailForOrderNoSql(orderNo);
         break;
       default:
         break;

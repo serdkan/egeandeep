@@ -4,7 +4,9 @@ const Order = require('./model/orders.model');
 async function orderListController(req, res) {
   try {
     const { startDate, endDate, type, orderType, dateType } = req.query;
-    const dateTypeStr = dateType === '2' ? 'TARIH' : 'TESLIMTARIHI';
+
+    const dateTypeStr = dateType === '1' ? 'TARIH' : 'TESLIMTARIHI';
+
     const result = await Order.getOrder(
       {
         startDate: {
@@ -22,7 +24,15 @@ async function orderListController(req, res) {
       dateTypeStr,
     );
 
+    if (result.data.length === 0) {
+      return res.json({
+        data: [],
+        totalCount: 0,
+      });
+    }
+
     const ordersNo = result.data.map((item) => `'${item.orderNo}'`).join(',');
+
     const resultDeteail = await Order.getOrder(
       {},
       'order-detail',

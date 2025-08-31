@@ -27,7 +27,7 @@ async function userLoginController(req, res) {
     const user = {
       id: isUser.id,
       username: isUser.userName,
-      role: 'admin',
+      role: 'editor',
     };
 
     const secretKey = process.env.SECRET_KEY;

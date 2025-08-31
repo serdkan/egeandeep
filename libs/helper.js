@@ -2,32 +2,33 @@ const sql = require('mssql');
 
 const sqlConfig = require('../mssql-config');
 
+let pool;
+
+const getPool = async () => {
+  if (!pool) {
+    pool = await sql.connect(sqlConfig);
+  }
+  return pool;
+};
+
 const executeQuery = async (sqlScript, parameters = []) => {
-  return new Promise((resolve, reject) => {
-    sql
-      .connect(sqlConfig)
-      .then((pl) => {
-        const request = pl.request();
-        parameters.forEach((param) => {
-          Object.keys(param).forEach((key) => {
-            request.input(
-              key,
-              param[key]?.type || sql.VarChar,
-              param[key]?.value || param[key],
-            );
-          });
-        });
-        return request.query(sqlScript);
-      })
-      .then((result) => {
-        const totalCount = result?.rowsAffected;
-        resolve({ data: result.recordsets[0], totalCount });
-      })
-      .catch((err) => reject(err))
-      .finally(() => {
-        if (sql) sql.close();
-      });
+  const pl = await getPool();
+  const request = pl.request();
+
+  parameters.forEach((param) => {
+    Object.keys(param).forEach((key) => {
+      request.input(
+        key,
+        param[key]?.type || sql.VarChar,
+        param[key]?.value || param[key],
+      );
+    });
   });
+
+  const result = await request.query(sqlScript);
+  const totalCount = result?.rowsAffected;
+
+  return { data: result.recordsets[0], totalCount };
 };
 
 const findOne = (tableName, parameters = []) => {

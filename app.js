@@ -3,7 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
-//const userCheckController = require('./routes/user/user-check-controller.js');
+const userCheckController = require('./routes/user/user-check-controller.js');
 const { userLoginController } = require('./routes/user/user-login-controller');
 const router = require('./routes/router.js');
 
@@ -23,7 +23,7 @@ app.use(
 );
 app.use(cookieParser());
 app.post('/login', userLoginController);
-//app.use(userCheckController);
+app.use(userCheckController);
 app.use(router);
 
 // eslint-disable-next-line no-console

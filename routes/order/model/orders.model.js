@@ -4,6 +4,8 @@ const {
   orderListDetailForOrderNoSql,
 } = require('../order.sql.js');
 const { executeQuery } = require('../../../libs/helper');
+const addOrderServices = require('./services/addOrderServices.js');
+const addOrderDetailServices = require('./services/addOrderDetailServices.js');
 
 class Order {
   static async getOrder(
@@ -53,6 +55,19 @@ class Order {
       })
       .catch((err) => console.log(err));
     return result;
+  }
+
+  static async addOrder(req, res, type) {
+    switch (type) {
+      case 'add-order':
+        addOrderServices(req, res);
+        break;
+      case 'add-order-detail':
+        addOrderDetailServices(req, res);
+        break;
+      default:
+        break;
+    }
   }
 }
 

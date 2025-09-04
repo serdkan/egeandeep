@@ -11,6 +11,30 @@ const getPool = async () => {
   return pool;
 };
 
+const insert = async (tableName, data, prefix) => {
+  const defaultPrefix = prefix ?? process.env.DB;
+  const pl = await getPool();
+  const request = pl.request();
+
+  const columns = Object.keys(data);
+  const values = columns.map((col) => `@${col}`);
+
+  columns.forEach((col) => {
+    const value = data[col];
+    request.input(col, value);
+  });
+
+  const sqlScript = `
+    INSERT INTO ${defaultPrefix}.dbo.${tableName} (${columns.join(', ')})
+    VALUES (${values.join(', ')});
+    
+    SELECT SCOPE_IDENTITY() AS InsertedId;
+  `;
+
+  const result = await request.query(sqlScript);
+  return result.recordset[0]?.InsertedId || null;
+};
+
 const executeQuery = async (sqlScript, parameters = []) => {
   const pl = await getPool();
   const request = pl.request();
@@ -61,4 +85,4 @@ const findOne = (tableName, parameters = []) => {
   });
 };
 
-module.exports = { executeQuery, findOne };
+module.exports = { executeQuery, findOne, insert };

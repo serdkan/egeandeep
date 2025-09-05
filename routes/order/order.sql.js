@@ -37,6 +37,14 @@ ISNULL(AMORTISORADET,0)        AS handleCount
  WHERE SIPARISNO IN (${orderNo})
 `;
 
+const orderDetailRowSql = `SELECT * FROM EGEAN.dbo.ERPV_OrderDetail WHERE orderId=@Id`;
+
+const orderOfferSql = (dateType) =>
+  `SELECT * FROM EGEAN.dbo.ERPV_Order WHERE ${dateType}>=@startDate and ${dateType}<=@endDate`;
+
+const orderOfferDetailSql = (orderId) =>
+  `SELECT * FROM EGEAN.dbo.ERPV_OrderDetail WHERE orderId in (${orderId})`;
+
 const orderListIdSql = `select * from erp_siparis detay where firmId=@firmId and id=@id`;
 const orderDeleteSql = `delete from erp_siparis where firmId=@firmId and id=@id`;
 const orderInsertSql = `INSERT INTO ERP_Siparis
@@ -91,4 +99,7 @@ export {
   orderInsertSql,
   orderUpdateSql,
   orderListDetailForOrderNoSql,
+  orderDetailRowSql,
+  orderOfferSql,
+  orderOfferDetailSql,
 };

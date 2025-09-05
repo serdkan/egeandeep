@@ -1,6 +1,7 @@
 const { insert } = require('../../../../libs/helper');
 
 async function addOrderDetailServices(req, res) {
+  console.log(req.body.offerNo);
   req.record = {
     Model: req.body.model,
     OrderId: Number(req.body.offerNo),

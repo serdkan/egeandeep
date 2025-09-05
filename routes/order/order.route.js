@@ -2,9 +2,27 @@ const orderRoute = {
   routePrefix: '/api/orders',
   routes: [
     {
-      endPoint: '/list',
+      endPoint: '/order/list',
       method: 'GET',
       controllers: ['orderListController'],
+      description: 'User fetches list',
+    },
+    {
+      endPoint: '/offer/list',
+      method: 'GET',
+      controllers: ['orderOfferListController'],
+      description: 'User fetches list',
+    },
+    {
+      endPoint: '/order-detail-row/list/:Id',
+      method: 'GET',
+      controllers: ['orderListRowController'],
+      description: 'User fetches list',
+    },
+    {
+      endPoint: '/order-offer/list',
+      method: 'GET',
+      controllers: ['orderOfferListController'],
       description: 'User fetches list',
     },
     {

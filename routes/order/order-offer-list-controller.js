@@ -1,11 +1,10 @@
 const sql = require('mssql');
 const Order = require('./model/orders.model');
 
-async function orderListController(req, res) {
+async function orderOfferListController(req, res) {
   try {
-    const { startDate, endDate, type, orderType, dateType } = req.query;
-    const dateTypeStr = dateType === '1' ? 'TARIH' : 'TESLIMTARIHI';
-
+    const { startDate, endDate, dateType } = req.query;
+    const newDateType = dateType === '1' ? 'offerDate' : 'deliveryDate';
     const result = await Order.getOrder({
       params: {
         startDate: {
@@ -17,26 +16,20 @@ async function orderListController(req, res) {
           value: endDate,
         },
       },
-      type,
-      orderType: orderType.join(','),
-      dateType: dateTypeStr,
+      type: 'order-offer-list',
+      dateType: newDateType,
     });
 
-    if (result.data.length === 0) {
-      return res.json({
-        data: [],
-        totalCount: 0,
-      });
-    }
+    const ordersId = result.data.map((item) => `'${item.id}'`).join(',');
 
-    const ordersNo = result.data.map((item) => `'${item.orderNo}'`).join(',');
     const resultDeteail = await Order.getOrder({
-      type: 'order-detail',
-      orderNo: ordersNo,
+      type: 'order-offer-detail-list',
+      ordersId,
     });
+
     const enrichedOrders = result.data.map((order) => {
       const matchingDetails = resultDeteail.data.filter(
-        (detail) => detail.orderNo === order.orderNo,
+        (detail) => detail.orderId === order.id,
       );
 
       return {
@@ -44,7 +37,6 @@ async function orderListController(req, res) {
         orderDetail: matchingDetails,
       };
     });
-
     return res.json({
       data: enrichedOrders,
       totalCount: result.totalCount,
@@ -54,4 +46,4 @@ async function orderListController(req, res) {
   }
 }
 
-module.exports = orderListController;
+module.exports = orderOfferListController;

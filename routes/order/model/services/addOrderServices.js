@@ -8,7 +8,6 @@ async function addOrderServices(req, res) {
       Desctiption: offer.desctiption,
       BarcodeDescription: offer.barcodeDescription,
       OfferDate: offer.offerDate ? new Date(offer.offerDate) : null,
-      OrderDate: offer.orderDate ? new Date(offer.orderDate) : null,
       DeliveryDate: offer.deliveryDate ? new Date(offer.deliveryDate) : null,
       OrderType: offer.orderType !== undefined ? Number(offer.orderType) : null,
       Type: 0, // her zaman ilk önce TEklif olacak 0- teklif / 1 - sipariş
